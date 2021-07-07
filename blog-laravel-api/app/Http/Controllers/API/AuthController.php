@@ -7,56 +7,67 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
+use Validator;
+use App\Http\Controllers\API\BaseController as BaseController;
 
-
-class AuthController extends Controller
+class AuthController extends BaseController
 {
     public function register(Request $request)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
+         $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required',
+            'confirm_password' => 'required|same:password'
         ]);
-
-        $user = User::create([
-            'name' => $validatedData['name'],
-            'email' => $validatedData['email'],
-            'password' => Hash::make($validatedData['password']),
-            'role' => 1,
-        ]);
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-//            'user' =>[
-//                'name' => $user->name,
-//            ],
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+   
+        if($validator->fails()){
+            return $this->sendError('Error validation', $validator->errors());       
+        }
+   
+        $input = $request->all();
+        $input['password'] = bcrypt($input['password']);
+        $user = User::create($input);
+        //field for json response
+        $token = $user->createToken('MyAuthApp')->plainTextToken;
+        Redis::set('MyAuthApp', $token);
+        $success['token'] =  $token;
+        $success['name'] =  $user->name;
+   
+        return $this->sendResponse($success, 'User created successfully.');
     }
 
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json([
-                'message' => 'Invalid login details'
-            ], 401);
-        }
-
-        $user = User::where('email', $request['email'])->firstOrFail();
-
-        $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json([
-            'status' => 'Auth - OK',
-            'access_token' => $token,
-            'token_type' => 'Bearer',
-        ]);
+        if(Auth::attempt([
+            'email' => $request->email, 
+            'password' => $request->password])
+        ){ 
+           
+            $authUser = Auth::user(); 
+            //field for json response
+            $token = $authUser->createToken('MyAuthApp')->plainTextToken;
+            $success['token'] =  $token;
+            Redis::set('MyAuthApp', $token);
+            $success['name'] =  $authUser->name;
+            // $success['redis_token'] = Redis::get('MyAuthApp');
+   
+            return $this->sendResponse($success, 'User signed in');
+        } 
+        else{ 
+            return $this->sendError('Enter correctly data.', ['error'=>'Unauthorised']);
+        } 
     }
 
-    public function me(Request $request)
+    public function logout(Request $request) {
+        
+        auth()->user()->tokens()->delete();
+        return $this->sendResponse([], 'Logged out');
+  
+    }
+
+    public function profile(Request $request)
     {
         return $request->user();
     }

@@ -8,26 +8,7 @@ class NewsByCategoryResources extends JsonResource
 {
     public function toArray($request)
     {
-        return [
-            'category' =>[
-                'id'=>$request->data[0]->id,
-//                'name'=>$this->name,
-//                'description'=>$this->description,
-//                'url_img'=>$this->img,
-            ],
-            'news'=>[
-                'id'=>$this->id,
-//                'title'=>$this->title,
-//                'description'=>$this->description,
-//                'text'=>$this->text,
-//                'url_img'=>$this->url_img,
-//                'date'=>$this->date,
-//                'author'=>$this->author,
-//                'cetegories_id'=>$this->cetegories_id,
-//                'status'=>$this->status
-            ]
-
-        ];
+        return parent::toArray($request);
     }
 
     public function with($request)
