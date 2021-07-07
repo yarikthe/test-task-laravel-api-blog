@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\News;
+use App\Models\Category;
 
 class HomeController extends Controller
 {
@@ -29,5 +31,17 @@ class HomeController extends Controller
     public function adminHome()
     {
         return view('admin.home');
+    }
+
+    public function news()
+    {
+        $news = News::all();
+        return view('admin.news', compact('news'));
+    }
+
+    public function category()
+    {
+        $category = Category::all();
+        return view('admin.category', compact('category'));
     }
 }
