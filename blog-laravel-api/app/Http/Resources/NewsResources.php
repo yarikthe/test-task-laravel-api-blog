@@ -14,10 +14,10 @@ class NewsResources extends JsonResource
             'title'=>$this->title,
             'description'=>$this->description,
             'text'=>$this->text,
-            'url_img'=>$this->img,
+            'url_img'=>$this->url_img,
             'date'=>$this->date,
             'author'=>$this->author,
-            'category'=>$this->category,
+            'cetegories_id'=>$this->cetegories_id,
             'status'=>$this->status
         ];
     }

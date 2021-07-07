@@ -18,36 +18,32 @@ use App\Http\Controllers\API\NewsController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::group(['prefix'=>'v1'], function(){
+Route::group(['prefix'=>'v1'], function (){
+    // START - AUTH //
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    // END - AUTH //
 
     // START - CATEGORY //
-
-    //Вывести список всех категорий (GET метод)
     Route::get('/categories',[CategoryController::class,'index']);
-    //Получить одну категорию по ID и все ее новости (GET метод)
-    Route::get('/categories/{id}',[CategoryController::class,'index']);
-    //Возможность добавить новую категорию (POST метод)
-    Route::post('/category',[CategoryController::class,'store']);
-    //Возможность удаления категории (DELETE метод)
-    Route::delete('/category/{id}',[CategoryController::class,'destroy']);
-
+    Route::get('/categories/{id}',[CategoryController::class,'find']);
     // END - CATEGORY //
 
-
     // START - NEWS //
-
-    //Вывести список всех новостей (GET метод)
     Route::get('/news',[NewsController::class,'index']);
-    //Возможность добавить новую новость (POST метод)
-    Route::post('/news',[NewsController::class,'store']);
-
     // END - NEWS //
 });
 
-//Вывести список всех категорий (GET метод)
-//Вывести список всех новостей (GET метод)
-//Получить одну категорию по ID и все ее новости (GET метод)
-//Возможность добавить новую категорию (POST метод)
-//Возможность добавить новую новость (POST метод)
-//Возможность удаления категории (DELETE метод)
+Route::group(['prefix'=>'v1', 'middleware' => ['auth:sanctum']], function(){
+
+    Route::post('/me', [AuthController::class, 'me']);
+
+    // START - CATEGORY //
+    Route::post('/category',[CategoryController::class,'store']);
+    Route::delete('/category/{id}',[CategoryController::class,'destroy']);
+    // END - CATEGORY //
+
+    // START - NEWS //
+    Route::post('/news',[NewsController::class,'store']);
+    // END - NEWS //
+});
