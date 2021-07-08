@@ -116,6 +116,7 @@
       <excludeFolder url="file://$MODULE_DIR$/blog-laravel-api/vendor/egulias/email-validator" />
       <excludeFolder url="file://$MODULE_DIR$/blog-laravel-api/vendor/tijsverkoyen/css-to-inline-styles" />
       <excludeFolder url="file://$MODULE_DIR$/blog-laravel-api/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/blog-laravel-api/vendor/laravel/ui" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

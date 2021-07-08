@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\News;
-use App\Models\Category;
+use App\Models\Cetegory;
 
 class HomeController extends Controller
 {
@@ -41,7 +41,7 @@ class HomeController extends Controller
 
     public function category()
     {
-        $category = Category::all();
+        $category = Cetegory::all();
         return view('admin.category', compact('category'));
     }
 }

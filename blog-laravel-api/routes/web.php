@@ -3,7 +3,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use Auth; 
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -23,8 +23,12 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('admin/home', [HomeController::class, 'adminHome'])->name('admin.home')->middleware('is_admin');
-Route::get('admin/news', [HomeController::class, 'news'])->name('admin.news')->middleware('is_admin');
-Route::get('admin/category', [HomeController::class, 'category'])->name('admin.category')->middleware('is_admin');
+Route::group(['prefix'=>'home/admin'], function(){
+    Route::get('/', [HomeController::class, 'adminHome'])->name('admin.home');
+    Route::get('/news', [HomeController::class, 'news'])->name('admin.news');
+    Route::get('/category', [HomeController::class, 'category'])->name('admin.category');
+
+});
+
 
 

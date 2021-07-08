@@ -110,6 +110,7 @@
       <path value="$PROJECT_DIR$/blog-laravel-api/vendor/egulias/email-validator" />
       <path value="$PROJECT_DIR$/blog-laravel-api/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/blog-laravel-api/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/blog-laravel-api/vendor/laravel/ui" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />
