@@ -1,4 +1,4 @@
-# test-task-laravel-api-blog
+# test-task-laravel-restfull-api-blog
 Test task - Blog on Larvel with Rest full API <br>
 <h4>Install & Configuration</h4>
 1. Clone repository <br> <code>git@github.com:yarikthe/test-task-laravel-api-blog.git</code> <br>
