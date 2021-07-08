@@ -35,13 +35,16 @@ class HomeController extends Controller
 
     public function news()
     {
-        $news = News::paginate(10);
-        return view('admin.news', compact('news'));
+        $news = News::orderBy('id','DESC')->paginate(10);
+        $category = Cetegory::all();
+        $count = News::count();
+        return view('admin.news', compact('news', 'category', 'count'));
     }
 
     public function category()
     {
-        $category = Cetegory::paginate(5);
-        return view('admin.category', compact('category'));
+        $category = Cetegory::orderBy('id','DESC')->paginate(5);
+        $count = Cetegory::count();
+        return view('admin.category', compact('category', 'count'));
     }
 }

@@ -9,7 +9,7 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <h1>News</h1>
+            <h1>News ({{$count}})</h1>
             <hr>
             @if(count($news) > 0)
                 <div id="news" class="col-md-12">
@@ -25,7 +25,7 @@
                             <th scope="col">Text</th>
                             <th scope="col">Date</th>
                             <th scope="col">Author</th>
-                            <th scope="col">Category</th>
+                            <th scope="col" class="col-md-2">Category</th>
                             <th scope="col">Status</th>
                         </tr>
                         </thead>
@@ -43,7 +43,15 @@
                                 <td>{{ $item->text }}</td>
                                 <td>{{ $item->date }}</td>
                                 <td>{{ $item->author }}</td>
-                                <td>{{ $item->category_id }}</td>
+                                <td>ID:{{ $item->cetegories_id }}
+                                    <hr>
+                                    Name category:
+                                    @foreach($category as $categoriya)
+                                        @if($categoriya->id == $item->cetegories_id)
+                                            {{ $categoriya->name }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{ $item->status }}</td>
                             </tr>
                         @endforeach

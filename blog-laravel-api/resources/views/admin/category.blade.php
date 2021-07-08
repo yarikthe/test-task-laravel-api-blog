@@ -9,7 +9,7 @@
     </style>
     <div class="container">
         <div class="row justify-content-center">
-            <h1>Category</h1>
+            <h1>Category ({{$count}})</h1>
             <hr>
             @if(count($category) > 0)
                 <div id="category" class="col-md-12">
