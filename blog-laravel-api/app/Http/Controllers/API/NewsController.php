@@ -8,6 +8,7 @@ use App\Http\Resources\NewsByCategoryResources;
 use App\Http\Resources\NewsResources;
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
 use Validator;
 
@@ -20,10 +21,10 @@ class NewsController extends BaseController
         if(Cache::get('news')){
             return $this->sendResponse(NewsResources::collection(Cache::get('news')), 'News fetched. #redis');
         }else{
-            $data = Cache::set('news', 33600, function () {
+            $news = Cache::set('news', 33600, function () {
                 return News::all();
             });
-            return $this->sendResponse(NewsResources::collection($data), 'News fetched. #pgsql');
+            return $this->sendResponse(NewsResources::collection($news), 'News fetched. #pgsql');
         }
     }
 
