@@ -1,72 +1,63 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        News
-        <div class="col-md-8">
-            <table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+    <style>
+        #news {
+            height: 80vh;
+            overflow: scroll;
+        }
+    </style>
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1>News</h1>
+            <hr>
+            @if(count($news) > 0)
+                <div id="news" class="col-md-12">
 
-<table class="table">
-  <thead class="thead-light">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Image</th>
+                            <th scope="col">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Text</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($news as $key => $item)
+                            <tr>
+                                <th scope="row">{{$key+1}}</th>
+                                <td>
+                                    <img src="{{ $item->url_img }}" alt="image-{{$item->id}}" class="w-50">
+                                </td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->title }}</td>
+                                <td>{{ $item->description }}</td>
+                                <td>{{ $item->text }}</td>
+                                <td>{{ $item->date }}</td>
+                                <td>{{ $item->author }}</td>
+                                <td>{{ $item->category_id }}</td>
+                                <td>{{ $item->status }}</td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+
+                    </table>
+
+                </div>
+                <div class="pagination row">
+                    {{ $news->links() }}
+                </div>
+            @else
+                <span> (i) - No data. -</span>
+            @endif
         </div>
     </div>
-</div>
 @endsection

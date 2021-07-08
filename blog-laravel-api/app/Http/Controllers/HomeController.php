@@ -35,13 +35,13 @@ class HomeController extends Controller
 
     public function news()
     {
-        $news = News::all();
+        $news = News::paginate(10);
         return view('admin.news', compact('news'));
     }
 
     public function category()
     {
-        $category = Cetegory::all();
+        $category = Cetegory::paginate(5);
         return view('admin.category', compact('category'));
     }
 }

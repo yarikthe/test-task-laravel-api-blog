@@ -62,7 +62,20 @@
                         @endif
                     @else
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('logout') }}"
+                            <a class="nav-link text-dark" href="{{ route('admin.home') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.news') }}">{{ __('News') }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('admin.category') }}">{{ __('Category') }}</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-success" href="{{ route('admin.home') }}">{{ Auth::user()->name }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-danger" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
@@ -71,12 +84,6 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.news') }}">{{ __('News') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.category') }}">{{ __('Category') }}</a>
                         </li>
                     @endguest
                 </ul>
