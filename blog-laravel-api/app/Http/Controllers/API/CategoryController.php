@@ -16,8 +16,6 @@ class CategoryController extends BaseController
 {
     public function index(){
 
-        $news = Cetegory::all();
-
         if(Cache::get('category')){
             return $this->sendResponse(CategoryResources::collection(Cache::get('category')), 'Category fetched. #redis');
         }else{
@@ -63,8 +61,13 @@ class CategoryController extends BaseController
     public function destroy($id){
 
         $category = Cetegory::find($id);
+
+        if (is_null($category)) {
+            return $this->sendError('Category does found.');
+        }
+
         $category->delete();
-        
+
         return $this->sendResponse([], 'Category deleted.');
 
     }

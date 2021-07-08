@@ -16,15 +16,13 @@ class NewsController extends BaseController
 {
     public function index(){
 
-        $news = News::all();
-
         if(Cache::get('news')){
-            return $this->sendResponse(NewsResources::collection(Cache::get('news')), 'News fetched. #redis');
+            return $this->sendResponse(CategoryResources::collection(Cache::get('news')), 'Category fetched. #redis');
         }else{
-            $news = Cache::set('news', 33600, function () {
+            $data = Cache::remember('news', 33600, function () {
                 return News::all();
             });
-            return $this->sendResponse(NewsResources::collection($news), 'News fetched. #pgsql');
+            return $this->sendResponse(CategoryResources::collection($data), 'Category fetched. #pgsql');
         }
     }
 
@@ -33,7 +31,7 @@ class NewsController extends BaseController
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'title' => 'required',
+            'title' => 'string',
             'description' => 'required',
             'text' => 'required',
             'url_img' => 'required',

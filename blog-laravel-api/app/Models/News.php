@@ -12,7 +12,7 @@ class News extends Model
     protected $table = "news";
 
     protected $fillable = [
-        'name',
+        'title',
         'description',
         'text',
         'url_img',
