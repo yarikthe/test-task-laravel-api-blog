@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Models\Cetegory;
+use App\Models\News;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResources;
 use App\Http\Resources\NewsByCategoryResources;
-use App\Models\Cetegory;
-use App\Models\News;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Cache;
@@ -16,13 +16,13 @@ class CategoryController extends BaseController
 {
     public function index(){
 
-        $news = Cetegory::paginate(10);
+        $news = Cetegory::all();
 
         if(Cache::get('category')){
             return $this->sendResponse(CategoryResources::collection(Cache::get('category')), 'Category fetched. #redis');
         }else{
             $data = Cache::remember('category', 33600, function () {
-                return Cetegory::paginate(10);
+                return Cetegory::all();
             });
             return $this->sendResponse(CategoryResources::collection($data), 'Category fetched. #pgsql');
         }
@@ -35,7 +35,7 @@ class CategoryController extends BaseController
             return $this->sendError('Category does not exist.');
         }
 
-        $news = News::where('cetegories_id', $category->id)->paginate(10);
+        $news = News::where('cetegories_id', $category->id)->get();
         $data = [$category, $news];
 
         return $this->sendResponse(new NewsByCategoryResources($data), 'News fetched by category.');
@@ -46,9 +46,9 @@ class CategoryController extends BaseController
         $input = $request->all();
         
         $validator = Validator::make($input, [
-            'name' => 'string',
-            'description' => 'string',
-            'url_img' => 'string'
+            'name' => 'required',
+            'description' => 'required',
+            'url_img' => 'required'
         ]);
 //required
         if($validator->fails()){
@@ -60,9 +60,11 @@ class CategoryController extends BaseController
         return $this->sendResponse(new CategoryResources($category), 'Category created.');
     }
 
-    public function destroy(Category $category){
+    public function destroy($id){
 
+        $category = Cetegory::find($id);
         $category->delete();
+        
         return $this->sendResponse([], 'Category deleted.');
 
     }

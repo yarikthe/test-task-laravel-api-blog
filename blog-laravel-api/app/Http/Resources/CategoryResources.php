@@ -13,7 +13,7 @@ class CategoryResources extends JsonResource
             'id'=>$this->id,
             'name'=>$this->name,
             'description'=>$this->description,
-            'url_img'=>$this->img
+            'url_img'=>$this->img,
         ];
     }
 

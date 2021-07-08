@@ -11,8 +11,14 @@ class Cetegory extends Model
 
     protected $table = "cetegories";
 
-      public function news()
-      {
-        return $this->hasMany('App\Models\News');
-      }
+    protected $fillable = [
+        'name',
+        'description',
+        'url_img'
+    ];
+
+    public function news()
+    {
+      return $this->hasMany('App\Models\News');
+    }
 }

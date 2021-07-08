@@ -15,19 +15,20 @@ class NewsController extends BaseController
 {
     public function index(){
 
-        $news = News::paginate(10);
+        $news = News::all();
 
         if(Cache::get('news')){
             return $this->sendResponse(NewsResources::collection(Cache::get('news')), 'News fetched. #redis');
         }else{
             $data = Cache::set('news', 33600, function () {
-                return News::paginate(10);
+                return News::all();
             });
             return $this->sendResponse(NewsResources::collection($data), 'News fetched. #pgsql');
         }
     }
 
     public function store(Request $request){
+
         $input = $request->all();
 
         $validator = Validator::make($input, [
@@ -35,7 +36,7 @@ class NewsController extends BaseController
             'description' => 'required',
             'text' => 'required',
             'url_img' => 'required',
-            'date' => 'required|date',
+            'date' => 'required',
             'author' => 'required',
             'cetegories_id' => 'required',
             'status' => 'required',
